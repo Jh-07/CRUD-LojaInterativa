@@ -1,0 +1,139 @@
+<div class="container mt-5 mb-5">
+  <div class="row mb-5">
+    <div class="col-5">
+      <h4 class=" fw-bold">FABRICANTE</h4>
+      <form >
+        <div class="form-group mb-2">
+          <label class=""> Nome do Fabricante</label>
+          <input type="text" name="nomeDoProduto" class="form-control form-control-sm" id="nomeDoProduto"  placeholder="">
+        </div>
+        <div class="form-group">
+          <label class="">Categorias</label>
+          <input type="text" name="categoria1" class="form-control form-control-sm" id="categoria1" placeholder="Insira uma categoria">
+        </div>
+        <div class="form-group mt-2">
+
+          <input type="text" name="categoria2" class="form-control form-control-sm" id="categoria2" placeholder="Insira uma categoria">
+        </div>
+        <div class="form-group mt-2">
+
+          <input type="text" name="categoria3" class="form-control form-control-sm" id="categoria3" placeholder="Insira uma categoria">
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-sm mt-4" disabled>Adicionar Fabricante</button>
+      </form>
+        
+      
+    </div>
+    <div class="col-5 offset-2">
+      <h4 class="fw-bold">PRODUTO</h4>
+      <form>
+        <div class="form-group mb-2">
+          <label>Nome do Produto</label>
+          <input type="text" name="nomeDoProduto" class="form-control form-control-sm" id="nomeDoProduto"  placeholder="Insira o nome do produto">
+        </div>
+        <div class="form-group mb-2">
+          <label>Fabricante</label>
+          <select class="form-select form-select-sm" >
+            <option selected></option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+        <div class="form-group mb-2">
+          <label>Categoria</label>
+          <select class="form-select form-select-sm" disable>
+            <option selected></option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+        <div class="form-group mb-2">
+          <label>Preço</label>
+          <input type="number" name="preco" class="form-control form-control-sm" id="preco" placeholder="Insira o preço do produto">
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm mt-4" disabled>Adicionar Produto</button>
+
+      </form>  
+      
+    </div>
+  </div>
+  <div class="input-group">
+    <div class="form-outline">
+      <input type="search" id="searchform" class="form-control" placeholder="Procurar...">
+    </div>
+
+  </div>   
+  <table class="table col-12" >
+    <thead>
+      <tr>
+        <th scope="col" class="text-center" >id</th>
+        <th scope="col" class="text-center" >Nome do Produto</th>
+        <th scope="col" class="text-center" >Fabricante</th>
+        <th scope="col" class="text-center" >Categoria</th>
+        <th scope="col" class="text-center" >Preço</th>
+        <th scope="col" class="text-center" ></th>
+        <th scope="col" class="text-center" ></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr scope="row" *ngFor = "let element of listaDeProdutos">
+        <td align="center">{{element.id}}</td>
+        <td align="center">{{element.nomeDoProduto}}</td>
+        <td align="center">{{element.nomeDoFabricante}}</td>
+        <td align="center">{{element.categoria}}</td>
+        <td align="center">R$ {{element.preco | number: '2.2-3'}}</td>
+        <td align="center"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formulario" (click)="updateLinha(element)">Editar</button></td>
+        <td align="center"><button class="btn btn-primary">Deletar</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!--Modal-->
+<div id="formulario" class="modal fade">
+  <div class="modal-dialog ">
+    <div class="modal-content bg-light">
+      <div class="modal-header">
+        <h3 class="modal-title">Editar Produto</h3>
+        <button class="btn btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group mb-2">
+            <label>Nome do Produto</label>
+            <input type="text" name="editarNomeDoProduto" class="form-control form-control-sm" value="{{update.nomeDoProduto}}">
+          </div>
+          <div class="form-group mb-2">
+            <label class=""> Nome do Fabricante</label>
+          <select class="form-select form-select-sm" >
+            <option selected>{{update.nomeDoFabricante}}</option>
+            <option *ngFor="let fabricante of listaDeFabricantes" value="fabricante">{{fabricante.nome}}</option>
+            
+          </select>
+          </div>
+          <div class="form-group mb-2">
+            <label>Categoria</label>
+          <select class="form-select form-select-sm" >
+            <option selected >{{update.categoria}}</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+          </div>
+          <div class="form-group mb-2">
+            <label>Preço</label>
+            <input type="text" name="editarPreço" class="form-control form-control-sm" value="{{update.preco | number: '2.2-3'}}">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" type="submit">Salvar Mudanças</button>
+      </div>          
+    </div>
+  </div>
+</div>
