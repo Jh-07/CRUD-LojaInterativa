@@ -14,30 +14,30 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long id;
-    private String nome;
-    private String fabricante;
+    private String nomeDoProduto;
+    private String nomeDoFabricante;
     private String categoria;
     private Float preco;
     
     public Product (){}
-    public Product(Long id, String nome, String fabricante, String categoria, Float preco) {
+    public Product(Long id, String nomeDoProduto, String nomeDoFabricante, String categoria, Float preco) {
         this.id = id;
-        this.nome = nome;
-        this.fabricante = fabricante;
+        this.nomeDoProduto = nomeDoProduto;
+        this.nomeDoFabricante = nomeDoFabricante;
         this.categoria = categoria;
         this.preco = preco;
     }
     public String getCategoria() {
         return categoria;
     }
-    public String getFabricante() {
-        return fabricante;
+    public String getnomeDoFabricante() {
+        return nomeDoFabricante;
     }
     public Long getId() {
         return id;
     }
-    public String getNome() {
-        return nome;
+    public String getNomeDoProduto() {
+        return nomeDoProduto;
     }
     public Float getPreco() {
         return preco;
@@ -45,14 +45,14 @@ public class Product implements Serializable {
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
-    public void setFabricante(String fabricante) {
-        this.fabricante = fabricante;
+    public void setnomeDoFabricante(String nomeDoFabricante) {
+        this.nomeDoFabricante = nomeDoFabricante;
     }
     public void setId(Long id) {
         this.id = id;
     }
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeDoProduto(String nomeDoProduto) {
+        this.nomeDoProduto = nomeDoProduto;
     }
     public void setPreco(Float preco) {
         this.preco = preco;

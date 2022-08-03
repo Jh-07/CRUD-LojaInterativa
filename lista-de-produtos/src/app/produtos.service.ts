@@ -7,7 +7,7 @@ import { Produtos } from './produtos';
 })
 export class ProdutosService {
   
-  url="http://localhost:8080"
+  url="http://localhost:8080/product"
   httpClient: HttpClient
 
   constructor(http:HttpClient) { 

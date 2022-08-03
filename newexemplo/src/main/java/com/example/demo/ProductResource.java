@@ -2,7 +2,6 @@ package com.example.demo;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,13 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/product")
 public class ProductResource {
     private ProductService productService;
     
-    @Autowired
     public ProductResource(ProductService productService) {
         this.productService = productService;
     }
@@ -35,7 +33,7 @@ public class ProductResource {
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
     
-    @CrossOrigin(origins = "http://localhost:4200")
+    
     @GetMapping("/list")
     public  ResponseEntity<List<Product>> getProducts(){
         List<Product> products = productService.getAllProduct();

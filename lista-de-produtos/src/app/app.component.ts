@@ -30,7 +30,7 @@ updateLinha(elemento: Produtos){
   }
 
   getLista(){
-    this.produtoService.getProdutos().subscribe({next: produtos => this.listaDeProdutos = produtos})
+    this.produtoService.getProdutos().subscribe({next: produtos => {console.log(produtos); this.listaDeProdutos = produtos}})
   }
   //listaDeProdutos =
   // [
