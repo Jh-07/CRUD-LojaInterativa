@@ -1,0 +1,2 @@
+INSERT INTO PRODUCT (ID,CATEGORIA,NOME_DO_FABRICANTE, NOME_DO_PRODUTO, PRECO) VALUES ('10','Achocolatado','Nestle','Nescau','5.0'), ('15','Achocolatado','PepsiCo','Toddy','3.50');
+INSERT INTO MANUFACTURER (ID, NOME_DO_FABRICANTE, CATEGORIA1, CATEGORIA2, CATEGORIA3) VALUES ('10','Nestle','Achocolatado','BomBom','Barra de Chocolate'),( '15','PepsiCo', 'Achocolatado','Refrigerante','Suco')

@@ -2,59 +2,57 @@
   <div class="row mb-5">
     <div class="col-5">
       <h4 class=" fw-bold">FABRICANTE</h4>
-      <form >
+      <form  [formGroup]="formularioFabricante" (ngSubmit)="onSubmitFabricante()" >
         <div class="form-group mb-2">
           <label class=""> Nome do Fabricante</label>
-          <input type="text" name="nomeDoProduto" class="form-control form-control-sm" id="nomeDoProduto"  placeholder="">
+          <input type="text" class="form-control form-control-sm" id="nomeDoProduto" formControlName="nomeDoFabricante"  placeholder="">
         </div>
         <div class="form-group">
           <label class="">Categorias</label>
-          <input type="text" name="categoria1" class="form-control form-control-sm" id="categoria1" placeholder="Insira uma categoria">
+          <input type="text" formControlName="categoria1" class="form-control form-control-sm" id="categoria1" placeholder="Insira uma categoria">
         </div>
         <div class="form-group mt-2">
 
-          <input type="text" name="categoria2" class="form-control form-control-sm" id="categoria2" placeholder="Insira uma categoria">
+          <input type="text" formControlName="categoria2" class="form-control form-control-sm" id="categoria2" placeholder="Insira uma categoria">
         </div>
         <div class="form-group mt-2">
 
-          <input type="text" name="categoria3" class="form-control form-control-sm" id="categoria3" placeholder="Insira uma categoria">
+          <input type="text" formControlName="categoria3" class="form-control form-control-sm" id="categoria3" placeholder="Insira uma categoria">
         </div>
 
-        <button type="submit" class="btn btn-primary btn-sm mt-4" disabled>Adicionar Fabricante</button>
+        <button type="submit" class="btn btn-primary btn-sm mt-4" [disabled]="!formularioFabricante.valid">Adicionar Fabricante</button>
       </form>
         
       
     </div>
     <div class="col-5 offset-2">
       <h4 class="fw-bold">PRODUTO</h4>
-      <form>
+      <form [formGroup]="formularioProduto">
         <div class="form-group mb-2">
           <label>Nome do Produto</label>
-          <input type="text" name="nomeDoProduto" class="form-control form-control-sm" id="nomeDoProduto"  placeholder="Insira o nome do produto">
+          <input type="text" formControlName="nomeDoProduto" class="form-control form-control-sm" id="nomeDoProduto"  placeholder="Insira o nome do produto">
         </div>
         <div class="form-group mb-2">
           <label>Fabricante</label>
-          <select class="form-select form-select-sm" >
+          <select class="form-select form-select-sm" id="nomeDoFabricante" formControlName="nomeDoFabricante" [(ngModel)]="fabricanteValor" (ngModelChange)="procurarFabricante()">
             <option selected></option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            <option *ngFor="let fabricante of listaDeFabricantes" >{{fabricante.nomeDoFabricante}}</option>
           </select>
         </div>
         <div class="form-group mb-2">
           <label>Categoria</label>
-          <select class="form-select form-select-sm" disable>
+          <select class="form-select form-select-sm" id="categoria" formControlName="categoria" >
             <option selected></option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            <option *ngIf="fabricanteAux">{{fabricanteAux.categoria1}}</option>
+            <option *ngIf="fabricanteAux">{{fabricanteAux.categoria2}}</option>
+            <option *ngIf="fabricanteAux">{{fabricanteAux.categoria3}}</option>
           </select>
         </div>
         <div class="form-group mb-2">
           <label>Preço</label>
-          <input type="number" name="preco" class="form-control form-control-sm" id="preco" placeholder="Insira o preço do produto">
+          <input type="number" formControlName="preco" class="form-control form-control-sm" id="preco" placeholder="Insira o preço do produto">
         </div>
-        <button type="submit" class="btn btn-primary btn-sm mt-4" disabled>Adicionar Produto</button>
+        <button type="submit" class="btn btn-primary btn-sm mt-4" [disabled]="!formularioProduto.valid" (click)="onSubmitProduto()">Adicionar Produto</button>
 
       </form>  
       
@@ -62,7 +60,7 @@
   </div>
   <div class="input-group">
     <div class="form-outline">
-      <input type="search" id="searchform" class="form-control" placeholder="Procurar...">
+      <input type="search" id="searchform" class="form-control" [(ngModel)]="itemDeProcura" (ngModelChange)="procurarItems()" placeholder="Procurar...">
     </div>
 
   </div>   
@@ -80,14 +78,14 @@
     </thead>
 
     <tbody>
-      <tr scope="row" *ngFor = "let element of listaDeProdutos">
+      <tr scope="row" *ngFor = "let element of listaTemporaria">
         <td align="center">{{element.id}}</td>
         <td align="center">{{element.nomeDoProduto}}</td>
         <td align="center">{{element.nomeDoFabricante}}</td>
         <td align="center">{{element.categoria}}</td>
         <td align="center">R$ {{element.preco | number: '2.2-3'}}</td>
-        <td align="center"><button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formulario" (click)="updateLinha(element)">Editar</button></td>
-        <td align="center"><button class="btn btn-primary">Deletar</button></td>
+        <td align="center"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formulario" (click)="chamaModal(element)">Editar</button></td>
+        <td align="center"><button type="button" class="btn btn-primary" (click)="deletarProduto(element.id)">Deletar</button></td>
       </tr>
     </tbody>
   </table>
@@ -102,38 +100,65 @@
         <button class="btn btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form [formGroup]="formularioModal" (ngSubmit)="onSubmitModal()">
+          <input type="hidden" id="id" formControlName="id" >
           <div class="form-group mb-2">
             <label>Nome do Produto</label>
-            <input type="text" name="editarNomeDoProduto" class="form-control form-control-sm" value="{{update.nomeDoProduto}}">
+            <input type="text" id="editarNomeDoProduto" class="form-control form-control-sm" formControlName = "nomeDoProduto" >
           </div>
           <div class="form-group mb-2">
             <label class=""> Nome do Fabricante</label>
-          <select class="form-select form-select-sm" >
-            <option selected>{{update.nomeDoFabricante}}</option>
-            <option *ngFor="let fabricante of listaDeFabricantes" value="fabricante">{{fabricante.nome}}</option>
+          <select class="form-select form-select-sm" id="editarNomeDoFabricante" formControlName="nomeDoFabricante"   [(ngModel)]="fabricanteValor" (ngModelChange)="procurarFabricante2()">
+            <option *ngFor="let fabricante of listaDeFabricantes" >{{fabricante.nomeDoFabricante}}</option>
             
           </select>
           </div>
           <div class="form-group mb-2">
             <label>Categoria</label>
-          <select class="form-select form-select-sm" >
-            <option selected >{{update.categoria}}</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+          <select class="form-select form-select-sm" id="editarCategoria" formControlName="categoria">
+            <option selected>{{update.categoria}}</option>
+            <option *ngIf="fabricanteAux">{{fabricanteAux.categoria1}}</option>
+            <option *ngIf="fabricanteAux">{{fabricanteAux.categoria2}}</option>
+            <option *ngIf="fabricanteAux">{{fabricanteAux.categoria3}}</option>
           </select>
           </div>
           <div class="form-group mb-2">
             <label>Preço</label>
-            <input type="text" name="editarPreço" class="form-control form-control-sm" value="{{update.preco | number: '2.2-3'}}">
+            <input type="text" id="editarPreço" class="form-control form-control-sm" formControlName = "preco"   >
           </div>
+          <div class="modal-footer">
+            <button class="btn btn-dark" type="button" data-bs-dismiss="modal">Cancelar</button>
+            <button class="btn btn-primary" type="submit" [disabled]="!formularioModal.valid" (click)="onSubmitModal()">Salvar Mudanças</button>
+          </div>          
         </form>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-dark" data-bs-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" type="submit">Salvar Mudanças</button>
-      </div>          
     </div>
   </div>
 </div>
+
+
+
+
+<!-- 
+<select class="form-select form-select-sm" id="categoria" formControlName="categoria" >
+  <option selected></option>
+  <option *ngIf="fabricanteAux">{{fabricanteAux.categoria1}}</option>
+  <option *ngIf="fabricanteAux">{{fabricanteAux.categoria2}}</option>
+  <option *ngIf="fabricanteAux">{{fabricanteAux.categoria3}}</option>
+</select> -->
+
+<!-- <select class="form-select form-select-sm" id="editarCategoria" formControlName="categoria" >
+  <option selected>{{update.categoria}}</option>
+  <option *ngIf="fabricanteAux">{{fabricanteAux.categoria1}}</option>
+  <option *ngIf="fabricanteAux">{{fabricanteAux.categoria2}}</option>
+  <option *ngIf="fabricanteAux">{{fabricanteAux.categoria3}}</option>
+</select> -->
+
+
+<!-- <select class="form-select form-select-sm" id="editarNomeDoFabricante" formControlName="nomeDoFabricante"  [(ngModel)]="fabricanteAux" (ngModelChange)="procurarFabricante2()">
+  <option *ngFor="let fabricante of listaDeFabricantes" >{{fabricante.nomeDoFabricante}}</option> -->
+
+  <!-- <select class="form-select form-select-sm" id="nomeDoFabricante" formControlName="nomeDoFabricante" [(ngModel)]="fabricanteValor" (ngModelChange)="procurarFabricante()">
+    <option selected></option>
+    <option *ngFor="let fabricante of listaDeFabricantes" >{{fabricante.nomeDoFabricante}}</option>
+  </select> -->

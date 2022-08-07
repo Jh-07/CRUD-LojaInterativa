@@ -23,6 +23,7 @@ import com.example.demo.service.ProductService;
 public class ProductResource {
     private ProductService productService;
     
+    
     public ProductResource(ProductService productService) {
         this.productService = productService;
     }
